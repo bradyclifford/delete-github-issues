@@ -1,0 +1,25 @@
+{
+  "name": "delete-github-issues",
+  "version": "1.0.0",
+  "description": "Delete GitHub Issues by Label",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "delete": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bradyclifford/delete-github-issues.git"
+  },
+  "author": "Brady Clifford",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bradyclifford/delete-github-issues/issues"
+  },
+  "homepage": "https://github.com/bradyclifford/delete-github-issues#readme",
+  "dependencies": {
+    "@octokit/core": "^6.1.2",
+    "@octokit/plugin-paginate-graphql": "^5.2.0",
+    "prompts": "^2.4.2"
+  }
+}
