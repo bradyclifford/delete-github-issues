@@ -40,16 +40,6 @@ function onCancel() {
 }
 
 const props = await prompts(questions, { onCancel });
-const confirmation = await prompts([{
-  type: 'confirm',
-  name: 'value',
-  message: `Confirm the deletion of all issues in ${props.owner}/${props.repo} with label ${props.label}?`
-}], { onCancel });
-
-if (!confirmation.value) {
-  console.warn('Abort deletion of issues');
-  process.exit(1);
-}
 
 const octokit = new MyOctokit({ auth: props.token });
 const { repository } = await octokit.graphql.paginate(
@@ -82,7 +72,18 @@ if (issues.length === 0) {
   process.exit(1);
 }
 
-console.info(`Found ${issues.length} issues with label '${props.label}' in ${props.owner}/${props.repo}. Deleting...`);
+const confirmation = await prompts([{
+  type: 'confirm',
+  name: 'value',
+  message: `Confirm the deletion of ${issues.length} issues in ${props.owner}/${props.repo} with label ${props.label}?`
+}], { onCancel });
+
+if (!confirmation.value) {
+  console.warn('Abort deletion of issues');
+  process.exit(1);
+}
+
+// TODO: work through a batch of issues at a time
 for await (const id of issues) {
   await octokit.graphql(
     `
